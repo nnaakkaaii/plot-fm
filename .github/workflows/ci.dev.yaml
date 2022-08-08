@@ -23,7 +23,7 @@ jobs:
           pip install pytest
       - name: PyTest
         run: |
-          cd server; for p in $(ls -d */); do python -m pytest $p --doctest-modules --junit-xml results/pytest_${p:0:-1}.xml; done
+          cd server; for p in $(ls -d */); do python -m pytest $p --doctest-modules --junit-xml ../results/pytest_${p:0:-1}.xml; done; cd ..
         continue-on-error: true
       - name: Upload Unit Test Results
         if: ${{ always() }}
