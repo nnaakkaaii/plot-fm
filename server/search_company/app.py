@@ -4,13 +4,13 @@ from pkg import company
 def lambda_handler(event, context):
     """
     >>> lambda_handler({"company_name": "ベイカレント"}, {})
-    '{"id": "6532", "name": "ベイカレント・コンサルティング"}'
+    {'id': '6532', 'name': 'ベイカレント・コンサルティング'}
     """
     company_name = event['company_name']
 
     res = company.search(company_name)
 
-    return res.as_json(ensure_ascii=False)
+    return res.as_dict()
 
 
 if __name__ == '__main__':
