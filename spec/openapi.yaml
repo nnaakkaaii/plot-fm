@@ -1,0 +1,72 @@
+openapi: "3.0.2"
+info:
+  title: Plot Financial Model
+  version: "1.0"
+servers:
+  - url: https://localhost:8080/api
+paths:
+  /search_company:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_name:
+                  type: string
+                  example: "ベイカレント"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company_id:
+                    type: string
+                    example: "6532"
+                  company_name:
+                    type: string
+                    example: "ベイカレント・コンサルティング"
+  /list_pl:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_id:
+                  type: string
+                  example: "6532"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PL"
+components:
+  schemas:
+    PL:
+      type: object
+      properties:
+        company_id:
+          type: string
+          example: "6532"
+        company_name:
+          type: string
+          example: "ベイカレント・コンサルティング"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              fy:
+                type: integer
+                example: 2021
+              attribute:
+                type: string
+                example: "売上原価"
