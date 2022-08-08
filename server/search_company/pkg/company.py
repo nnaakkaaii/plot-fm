@@ -1,10 +1,10 @@
-import json
 from typing import Dict, Optional
+import json
 
 
 class Company:
     def __init__(self,
-                 id_: str,
+                 id_: int,
                  name: str) -> None:
         self.__id = id_
         self.__name = name

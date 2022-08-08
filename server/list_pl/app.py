@@ -3,7 +3,8 @@ def lambda_handler(event, context):
     >>> lambda_handler({}, {})
     '{}'
     """
-    return {}
+    return '{}'
+
 
 
 if __name__ == '__main__':
