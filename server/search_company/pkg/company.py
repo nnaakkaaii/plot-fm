@@ -43,7 +43,6 @@ def search(name: str) -> Optional[Company]:
             )
 
 
-    return Company("6532", "ベイカレント・コンサルティング")
 
 
 if __name__ == '__main__':
