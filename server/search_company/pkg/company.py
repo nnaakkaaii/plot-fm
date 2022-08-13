@@ -43,6 +43,14 @@ def search(name: str) -> Optional[Company]:
             )
 
 
+def get_financial_info(company: Company) -> Optional[pd.DataFrame]:
+    """
+    >>> get_financial_info(Company(id_='6532', name='ベイカレント・コンサルティング')).shape
+    (22, 4)
+    """
+    company_dict = company.as_dict()
+    financial_info = yf.Ticker(company_dict['id'] + ".T").financials
+    return financial_info
 
 
 if __name__ == '__main__':
