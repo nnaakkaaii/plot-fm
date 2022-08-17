@@ -10,7 +10,10 @@ def lambda_handler(event, context):
 
     res = company.search(company_name)
 
-    return res.as_dict()
+    if res is None:
+        return {}
+    else:
+        return res.as_dict()
 
 
 if __name__ == '__main__':

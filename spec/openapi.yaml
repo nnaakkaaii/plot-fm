@@ -67,6 +67,14 @@ components:
               fy:
                 type: integer
                 example: 2021
-              attribute:
+              attr:
                 type: string
                 example: "売上原価"
+                enum: # 売上高 = 売上原価 + 販管費 + EBITDA
+                  - "売上高"
+                  - "売上原価"
+                  - "販売費及び一般管理費"
+              price:
+                type: integer
+                example: 2000000
+                description: "単位は円"
