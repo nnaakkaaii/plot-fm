@@ -31,7 +31,7 @@ def search(name: str) -> Optional[Company]:
     >>> search("ベイ")  # 一意に定まらない
     >>> search("ベインカレント")  # 見つからない
     """
-    p = Path(__name__).parent / 'data/company.csv'
+    p = (Path(__file__).parent / 'data/company.csv').absolute()
     df = pd.read_csv(p, encoding='utf-8')
     # 良い名寄せ方法がわからない
     df_target = df[df['銘柄名'].str.startswith(name)]
