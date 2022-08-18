@@ -41,7 +41,8 @@ class PL:
         self.__company_name = company_name
         self.__data = data
 
-    def as_dict(self) -> Dict[str, Union[str, List[Dict[str, Union[int, str, float]]]]]:
+    def as_dict(self) -> Dict[
+            str, Union[str, List[Dict[str, Union[int, str, float]]]]]:
         return {
             'company_id': self.__company_id,
             'company_name': self.__company_name,
