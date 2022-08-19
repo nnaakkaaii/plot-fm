@@ -5,5 +5,5 @@ def serialize(data, code: int = 200):
     return {
         "statusCode": code,
         "headers": {"Access-Control-Allow-Origin": '*'},
-        "body": json.dumps(data)
+        "body": json.dumps(data, ensure_ascii=False)
     }
