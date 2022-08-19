@@ -20,12 +20,12 @@ def company(c: Company):
 
 
 PL_ROW_ORDER = {
-    PLAttr.TotalRevenue: 0,
-    PLAttr.CostOfRevenue: 1,
-    PLAttr.GrossProfit: 2,
-    PLAttr.OperatingIncome: 3,
-    PLAttr.IncomeBeforeTax: 4,
-    PLAttr.NetIncome: 5,
+    PLAttr.TotalRevenue.value: 0,
+    PLAttr.CostOfRevenue.value: 1,
+    PLAttr.GrossProfit.value: 2,
+    PLAttr.OperatingIncome.value: 3,
+    PLAttr.IncomeBeforeTax.value: 4,
+    PLAttr.NetIncome.value: 5,
 }
 
 
@@ -41,7 +41,7 @@ def pl(p: PL):
     return {
         'data': [
             [
-                pl_dic[fy, attr] for fy in fys
+                pl_dic.get(fy, attr) for fy in fys
             ]
             for attr in attrs
         ],
