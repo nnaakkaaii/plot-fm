@@ -1,20 +1,34 @@
-from pkg import pl
+from pkg import company, pl
 
 
 def lambda_handler(event, context):
     """
-    >>> lambda_handler({"company_id": "0", "company_name": ""}, {})
+    >>> lambda_handler({"queryStringParameters": {"name": "ベイカレント"}}, {})
     {}
     """
-    company_id = event['company_id']
-    company_name = event['company_name']
+    name = event["queryStringParameters"]['company_name']
 
-    res = pl.list(company_id, company_name)
+    c = company.search(name)
+    if c is None:
+        return {}
 
-    if res is None:
+    p = pl.list(c.id, c.name)
+
+    if p is None:
         return {}
     else:
-        return res.as_dict()
+        return {
+            'id': p.company_id,
+            'name': p.company_name,
+            'data': [
+                {
+                    'fy': r.fy,
+                    'attr': r.attr,
+                    'price': r.price,
+                }
+                for r in p.data
+            ]
+        }
 
 
 if __name__ == '__main__':

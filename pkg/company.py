@@ -1,6 +1,5 @@
-import json
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Optional
 
 import pandas as pd
 
@@ -12,22 +11,27 @@ class Company:
         self.__id = id
         self.__name = name
 
-    def as_dict(self) -> Dict[str, str]:
-        return {
-            "id": self.__id,
-            "name": self.__name,
-        }
+    @property
+    def id(self) -> str:
+        return self.__id
 
-    def as_json(self, *args, **kwargs) -> str:
-        return json.dumps(self.as_dict(), *args, **kwargs)
+    @property
+    def name(self) -> str:
+        return self.__name
 
 
 def search(name: str) -> Optional[Company]:
     """
-    >>> search("ベイカレント").as_dict()
-    {'id': '6532', 'name': 'ベイカレント・コンサルティング'}
-    >>> search("ベイカレ").as_dict()
-    {'id': '6532', 'name': 'ベイカレント・コンサルティング'}
+    >>> s1 = search("ベイカレント")
+    >>> s1.id
+    '6532'
+    >>> s1.name
+    'ベイカレント・コンサルティング'
+    >>> s2 = search("ベイカレ")
+    >>> s2.id
+    '6532'
+    >>> s2.name
+    'ベイカレント・コンサルティング'
     >>> search("ベイ")  # 一意に定まらない
     >>> search("ベインカレント")  # 見つからない
     """

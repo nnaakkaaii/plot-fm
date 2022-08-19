@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict, List, Optional, Union
+from typing import List, Optional
 
 import pandas as pd
 import yfinance as yf
@@ -23,12 +23,17 @@ class PLRow:
         self.__attr = attr
         self.__price = price
 
-    def to_dict(self) -> Dict[str, Union[int, str, float]]:
-        return {
-            'fy': self.__fy,
-            'attr': self.__attr.value,
-            'price': self.__price,
-        }
+    @property
+    def fy(self) -> int:
+        return self.__fy
+
+    @property
+    def attr(self) -> PLAttr:
+        return self.__attr
+
+    @property
+    def price(self) -> float:
+        return self.__price
 
 
 class PL:
@@ -41,13 +46,17 @@ class PL:
         self.__company_name = company_name
         self.__data = data
 
-    def as_dict(self) -> Dict[
-            str, Union[str, List[Dict[str, Union[int, str, float]]]]]:
-        return {
-            'company_id': self.__company_id,
-            'company_name': self.__company_name,
-            'data': [row.to_dict() for row in self.__data],
-        }
+    @property
+    def company_id(self) -> str:
+        return self.__company_id
+
+    @property
+    def company_name(self) -> str:
+        return self.__company_name
+
+    @property
+    def data(self):
+        return self.__data
 
     @classmethod
     def from_dataframe(cls,
