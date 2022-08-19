@@ -5,6 +5,6 @@ COPY requirements.txt  .
 RUN pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
 COPY app.py ${LAMBDA_TASK_ROOT}
-# COPY pkg ${LAMBDA_TASK_ROOT}/pkg
+COPY pkg ${LAMBDA_TASK_ROOT}/pkg
 
 CMD [ "app.lambda_handler" ]
