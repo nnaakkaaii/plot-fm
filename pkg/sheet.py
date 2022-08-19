@@ -16,10 +16,10 @@ class WorkSheet:
               index: Optional[List[Any]] = None,
               header: Optional[List[Any]] = None,
               ) -> None:
-        if index is not None:
+        if header is not None:
             for j, col in enumerate(header, start=2):
                 self.__ws.cell(row=1, column=j).value = col
-        if header is not None:
+        if index is not None:
             for i, ind in enumerate(index, start=2):
                 self.__ws.cell(row=i, column=1).value = ind
         for i, row in enumerate(data, start=2):
@@ -31,9 +31,10 @@ class WorkBook:
     def __init__(self) -> None:
         self.__wb = openpyxl.Workbook()
         self.__ws_ind = 0
-        self.__path = None
+        self.__path: Optional[Path] = None
 
     def save(self, name: str) -> None:
+        assert isinstance(OUTPUT_DIR, str)
         p = Path(OUTPUT_DIR) / name
         self.__wb.save(p)
         self.__path = p
