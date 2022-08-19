@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import clsx from "clsx";
 import { createMuiTheme } from "@material-ui/core/styles";
 import * as colors from "@material-ui/core/colors";
@@ -23,6 +23,11 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Search from "../molecules/Search";
+import { useSetRecoilState} from "recoil";
+import companyState from "../../states/company";
+import plState from "../../states/pl";
+import axios from "axios";
+import {LIST_PL_URL, SEARCH_COMPANY_URL} from "../../utils/constant";
 
 const drawerWidth = 240;
 
@@ -157,9 +162,33 @@ const GenericTemplate: React.FC<GenericTemplateProps> = ({
                                                              title,
                                                          }) => {
     const classes = useStyles();
+    const [companyName, setCompanyName] = useState('');
     const search = (event: any) => {
-        console.log(event)
+        setCompanyName(event)
     };
+    const setCompany = useSetRecoilState(companyState);
+    const setPL = useSetRecoilState(plState);
+
+    useEffect(() => {
+        const f = async () => {
+            const res1 = await axios.post(SEARCH_COMPANY_URL, {"company_name": companyName});
+            if (res1.data?.company_id === undefined || res1.data?.company_name === undefined) {
+                return;
+            }
+            const company = res1.data;
+            setCompany(company);
+            const res2 = await axios.post(LIST_PL_URL, {"company_id": company.company_id, "company_name": company.company_name});
+            if (res2.data?.company_id === undefined || res2.data?.company_name === undefined || res2.data?.data === undefined || res2.data?.data.length === 0) {
+                return;
+            }
+            const pl = res2.data;
+            setPL(pl);
+            console.log(company);
+            console.log(pl);
+        }
+        f();
+    }, [companyName]);
+
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
         setOpen(true);
