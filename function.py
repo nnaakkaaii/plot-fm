@@ -35,4 +35,4 @@ def lambda_handler(event, context):
     if wb.path is None:
         return response.serialize({'message': '不明なエラーによりExcelファイルを作成できません'})
 
-    return response.encode(open(wb.path, 'rb').read(), content_type=response.ContentType.Excel)
+    return response.encode(open(wb.path, 'rb').read(), c.name, content_type=response.ContentType.Excel)

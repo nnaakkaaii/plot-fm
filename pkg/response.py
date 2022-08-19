@@ -15,10 +15,13 @@ class ContentType(Enum):
     Excel = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
 
-def encode(b: bytes, content_type: ContentType):
+def encode(b: bytes, filename: str, content_type: ContentType):
     return {
         'statusCode': 200,
-        'headers': {'Content-Type': content_type.value},
+        'headers': {
+            'Content-Type': content_type.value,
+            "Content-Disposition": f"attachment; filename={filename}",
+        },
         'body': base64.b64encode(b).decode('utf-8'),
         'isBase64Encoded': True,
     }
