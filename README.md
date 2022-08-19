@@ -1,6 +1,12 @@
 # plot-fm
 plot financial model web app
 
+## 準備
+
+```shell
+$ export OUTPUT_DIR=$PWD/tmp
+```
+
 ## ローカルでのテスト
 
 ```shell
