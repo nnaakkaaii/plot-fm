@@ -1,10 +1,10 @@
-from pkg import company, pl, response
+from pkg import company, formator, pl, response, sheet
 
 
 def lambda_handler(event, context):
     """
-    >>> lambda_handler({"queryStringParameters": {"name": "ベイカレント"}}, {})
-    {}
+    >>> lambda_handler({"queryStringParameters": {"name": "あ"}}, {})
+    '{"message": "企業が一意に特定されません"}'
     """
     if 'queryStringParameters' not in event:
         return response.serialize({'message': 'パラメータ`name`を指定してください'})
@@ -24,21 +24,15 @@ def lambda_handler(event, context):
 
     if p is None:
         return response.serialize({'message': '企業は見つかりましたが財務情報が見つかりません'})
-    else:
-        return response.serialize({
-            'id': p.company_id,
-            'name': p.company_name,
-            'data': [
-                {
-                    'fy': r.fy,
-                    'attr': r.attr.value,
-                    'price': r.price,
-                }
-                for r in p.data
-            ]
-        })
 
+    wb = sheet.create()
+    ws1 = wb.create_sheet('このシートについて')
+    ws1.write(formator.company(c))
+    ws2 = wb.create_sheet('財務諸表(PL)')
+    ws2.write(formator.pl(p))
+    wb.save(c.name)
 
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod(verbose=True)
+    if wb.path is None:
+        return response.serialize({'message': '不明なエラーによりExcelファイルを作成できません'})
+
+    return response.encode(open(wb.path, 'rb').read(), content_type=response.ContentType.Excel)
