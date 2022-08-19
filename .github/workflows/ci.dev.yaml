@@ -20,9 +20,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pandas yfinance
       - name: PyTest
-        working-directory: ./server
         run: |
-          for p in $(ls -d */); do python -m pytest $p --doctest-modules --junit-xml ../results/pytest_${p:0:-1}.xml; done
+          python -m pytest ./pkg --doctest-modules --junit-xml ../results/result.xml
         continue-on-error: true
       - name: Upload Unit Test Results
         if: ${{ always() }}
@@ -54,9 +53,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
       - name: Flake8
-        working-directory: ./server
         run: |
-          for p in $(ls -d */); do python -m flake8 $p; done
+          python -m flake8 ./pkg
 
   isort:
     runs-on: ubuntu-latest
@@ -72,9 +70,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install isort
       - name: Isort
-        working-directory: ./server
         run: |
-          for p in $(ls -d */); do python -m isort $p --check-only; done
+          python -m isort ./pkg --check-only
 
   mypy:
     runs-on: ubuntu-latest
@@ -90,6 +87,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install mypy
       - name: Mypy
-        working-directory: ./server
         run: |
-          for p in $(ls -d */); do python -m mypy $p; done
+          python -m mypy ./pkg
