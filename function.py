@@ -6,7 +6,7 @@ def lambda_handler(event, context):
     >>> lambda_handler({"queryStringParameters": {"name": "ベイカレント"}}, {})
     {}
     """
-    name = event["queryStringParameters"]['company_name']
+    name = event["queryStringParameters"]['name']
 
     c = company.search(name)
     if c is None:
