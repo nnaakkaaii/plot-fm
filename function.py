@@ -34,10 +34,15 @@ def lambda_handler(event, context):
     ws2.set_col_width()
     ws2.cumulative_bar_chart(title='PLの経年推移')
 
-    ws3 = wb.create_sheet('DXシミュレータ')
-    ws3.write(**dx.simulate(p))
+    ws3 = wb.create_sheet('DX純利益シミュレータ')
+    ws3.write(**dx.simulate_profit(p))
     ws3.set_col_width(width=13)
     ws3.line_chart(title='DXの有無による純利益の比較結果', max_cols=2)
+
+    ws4 = wb.create_sheet('DX累積効果シミュレータ')
+    ws4.write(**dx.simulate_cost_cut(p))
+    ws4.set_col_width(width=13)
+    ws4.bar_chart(title='DXの有無による累積コストカットの比較結果', max_cols=1)
 
     wb.save(c.name)
 
