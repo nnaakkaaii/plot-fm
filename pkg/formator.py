@@ -41,13 +41,13 @@ def pl(p: PL):
     return {
         'data': [
             [
-                pl_dic.get((fy, attr)) for fy in fys
+                pl_dic.get((fy, attr)) for attr in attrs
             ]
-            for attr in attrs
+            for fy in fys
         ],
-        'header': fys,
-        'index': [
+        'header': [
             attr.value
             for attr in attrs
         ],
+        'index': fys,
     }
