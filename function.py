@@ -1,4 +1,4 @@
-from pkg import company, formator, pl, response, sheet
+from pkg import company, formator, pl, response, sheet, dx
 
 
 def lambda_handler(event, context):
@@ -33,6 +33,12 @@ def lambda_handler(event, context):
     ws2.write(**formator.pl(p))
     ws2.set_col_width()
     ws2.cumulative_bar_chart(title='PLの経年推移')
+
+    ws3 = wb.create_sheet('DXシミュレータ')
+    ws3.write(**dx.simulate(p))
+    ws3.set_col_width(width=13)
+    ws3.line_chart(title='DXの有無による純利益の比較結果', max_cols=2)
+
     wb.save(c.name)
 
     if wb.path is None:

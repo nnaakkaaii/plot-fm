@@ -3,7 +3,7 @@ from typing import Any, List, Optional
 
 import openpyxl
 from openpyxl.worksheet import worksheet
-from openpyxl.chart import BarChart, Series, Reference
+from openpyxl.chart import BarChart, Reference, LineChart
 
 from pkg.env import OUTPUT_DIR
 
@@ -68,6 +68,38 @@ class WorkSheet:
                        titles_from_data=True)
         chart.set_categories(cats)
         chart.shape = 4
+        self.__ws.add_chart(chart, origin)
+        return
+
+    def line_chart(self,
+                   title: str,
+                   origin: str = 'F10',
+                   x_axis_title: Optional[str] = None,
+                   y_axis_title: Optional[str] = None,
+                   max_cols: Optional[int] = None
+                   ) -> None:
+        assert self.__num_cols is not None
+        assert self.__num_rows is not None
+        chart = LineChart()
+        chart.title = title
+        if x_axis_title is not None:
+            chart.x_axis.title = x_axis_title
+        if y_axis_title is not None:
+            chart.y_axis.title = y_axis_title
+        if max_cols is None:
+            max_cols = self.__num_cols
+        data = Reference(self.__ws,
+                         min_col=2,
+                         min_row=1,
+                         max_row=1 + self.__num_rows,
+                         max_col=1 + max_cols)
+        cats = Reference(self.__ws,
+                         min_col=1,
+                         min_row=2,
+                         max_row=1 + self.__num_rows)
+        chart.add_data(data,
+                       titles_from_data=True)
+        chart.set_categories(cats)
         self.__ws.add_chart(chart, origin)
         return
 
