@@ -12,7 +12,7 @@ def serialize(data, code: int = 200):
 
 
 class ContentType(Enum):
-    Excel = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    xlsx = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
 
 def encode(b: bytes, filename: str, content_type: ContentType):
@@ -20,7 +20,7 @@ def encode(b: bytes, filename: str, content_type: ContentType):
         'statusCode': 200,
         'headers': {
             'Content-Type': content_type.value,
-            "Content-Disposition": f"attachment; filename={filename}",
+            "Content-Disposition": f"attachment; filename={filename}.{content_type.name}",
         },
         'body': base64.b64encode(b).decode('utf-8'),
         'isBase64Encoded': True,
