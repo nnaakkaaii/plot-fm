@@ -28,8 +28,11 @@ def lambda_handler(event, context):
     wb = sheet.create()
     ws1 = wb.create_sheet('このシートについて')
     ws1.write(**formator.company(c))
+
     ws2 = wb.create_sheet('財務諸表(PL)')
     ws2.write(**formator.pl(p))
+    ws2.set_col_width()
+    ws2.cumulative_bar_chart(title='PLの経年推移')
     wb.save(c.name)
 
     if wb.path is None:
