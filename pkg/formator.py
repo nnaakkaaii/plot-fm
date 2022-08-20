@@ -20,31 +20,34 @@ def company(c: Company):
 
 
 PL_ROW_ORDER = {
-    PLAttr.TotalRevenue.value: 0,
-    PLAttr.CostOfRevenue.value: 1,
-    PLAttr.GrossProfit.value: 2,
-    PLAttr.OperatingIncome.value: 3,
-    PLAttr.IncomeBeforeTax.value: 4,
-    PLAttr.NetIncome.value: 5,
+    PLAttr.TotalRevenue: 0,
+    PLAttr.CostOfRevenue: 1,
+    PLAttr.GrossProfit: 2,
+    PLAttr.OperatingIncome: 3,
+    PLAttr.IncomeBeforeTax: 4,
+    PLAttr.NetIncome: 5,
 }
 
 
 def pl(p: PL):
     fys = sorted(list(set([x.fy for x in p.data])))
-    attrs = sorted(list(set([x.attr.value for x in p.data])),
+    attrs = sorted(list(set([x.attr for x in p.data])),
                    key=lambda x: PL_ROW_ORDER[x])
 
     pl_dic = {}
     for row in p.data:
-        pl_dic[row.fy, row.attr] = row.price
+        pl_dic[(row.fy, row.attr)] = row.price
 
     return {
         'data': [
             [
-                pl_dic.get(fy, attr) for fy in fys
+                pl_dic.get((fy, attr)) for fy in fys
             ]
             for attr in attrs
         ],
         'header': fys,
-        'index': attrs,
+        'index': [
+            attr.value
+            for attr in attrs
+        ],
     }

@@ -27,12 +27,19 @@ def lambda_handler(event, context):
 
     wb = sheet.create()
     ws1 = wb.create_sheet('このシートについて')
-    ws1.write(formator.company(c))
+    ws1.write(**formator.company(c))
     ws2 = wb.create_sheet('財務諸表(PL)')
-    ws2.write(formator.pl(p))
+    ws2.write(**formator.pl(p))
     wb.save(c.name)
 
     if wb.path is None:
         return response.serialize({'message': '不明なエラーによりExcelファイルを作成できません'})
 
     return response.encode(open(wb.path, 'rb').read(), c.name, content_type=response.ContentType.Excel)
+
+
+if __name__ == '__main__':
+    import base64
+    res = lambda_handler({'queryStringParameters': {'name': 'ベイカレント'}}, {})
+    with open('tmp/test.xlsx', 'wb') as f:
+        f.write(base64.b64decode(res['body']))

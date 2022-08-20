@@ -18,13 +18,13 @@ class WorkSheet:
               ) -> None:
         if header is not None:
             for j, col in enumerate(header, start=2):
-                self.__ws.cell(row=1, column=j).value = col
+                self.__ws.cell(row=1, column=j, value=col)
         if index is not None:
             for i, ind in enumerate(index, start=2):
-                self.__ws.cell(row=i, column=1).value = ind
+                self.__ws.cell(row=i, column=1, value=ind)
         for i, row in enumerate(data, start=2):
             for j, elem in enumerate(row, start=2):
-                self.__ws.cell(row=i, column=j).value = elem
+                self.__ws.cell(row=i, column=j, value=elem)
 
 
 class WorkBook:
@@ -35,7 +35,7 @@ class WorkBook:
 
     def save(self, name: str) -> None:
         assert isinstance(OUTPUT_DIR, str)
-        p = Path(OUTPUT_DIR) / name
+        p = Path(OUTPUT_DIR) / f'{name}.xlsx'
         self.__wb.save(p)
         self.__path = p
 
@@ -60,8 +60,7 @@ def create() -> WorkBook:
 
 if __name__ == '__main__':
     wb = create()
-    sheet = wb.create_sheet('PL')
-    sheet.write([[1, 2, 3], [4, 5, 6]],
-                header=['a', 'b', 'c'],
-                index=['A', 'B'])
-    wb.save('test.xlsx')
+    ws1 = wb.create_sheet('このシートについて')
+    ws1.write([['6532'], ['ベイカレント']],
+              index=['企業ID', '企業名'])
+    wb.save('test')
