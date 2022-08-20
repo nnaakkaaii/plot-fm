@@ -1,3 +1,5 @@
+from typing import Dict, List, Tuple
+
 from pkg.company import Company
 from pkg.pl import PL, PLAttr
 
@@ -30,27 +32,28 @@ PL_ROW_ORDER = {
 
 def pl(p: PL):
     fys = sorted(list(set([x.fy for x in p.data])))
-    attrs = sorted(list(set([x.attr for x in p.data if x.attr in PL_ROW_ORDER])),
-                   key=lambda x: PL_ROW_ORDER[x])
+    attrs = sorted(list(set(
+        [x.attr for x in p.data if x.attr in PL_ROW_ORDER])),
+        key=lambda x: PL_ROW_ORDER[x])
 
-    pl_dic = {}
+    pl_dic: Dict[Tuple[int, PLAttr], float] = {}
     for row in p.data:
         pl_dic[(row.fy, row.attr)] = row.price
 
     # 差分表示する
     data = []
-    header = []
+    header: List[str] = []
     for fy in fys:
         header = []
         last_attr = ''
-        last_price = 0
+        last_price = 0.
         record = []
         for attr in attrs:
             if last_price == 0 and last_attr == '':
                 last_attr = attr.value
-                last_price = pl_dic.get((fy, attr))
+                last_price = pl_dic[(fy, attr)]
                 continue
-            price = pl_dic.get((fy, attr))
+            price = pl_dic[(fy, attr)]
             header.append(f'{last_attr} - {attr.value}')
             record.append(last_price - price)
             last_attr = attr.value

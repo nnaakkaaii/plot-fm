@@ -2,8 +2,8 @@ from pathlib import Path
 from typing import Any, List, Optional
 
 import openpyxl
+from openpyxl.chart import BarChart, LineChart, Reference
 from openpyxl.worksheet import worksheet
-from openpyxl.chart import BarChart, Reference, LineChart
 
 from pkg.env import OUTPUT_DIR
 
