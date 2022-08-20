@@ -103,6 +103,38 @@ class WorkSheet:
         self.__ws.add_chart(chart, origin)
         return
 
+    def bar_chart(self,
+                  title: str,
+                  origin: str = 'F10',
+                  x_axis_title: Optional[str] = None,
+                  y_axis_title: Optional[str] = None,
+                  max_cols: Optional[int] = None
+                  ) -> None:
+        assert self.__num_cols is not None
+        assert self.__num_rows is not None
+        chart = BarChart()
+        chart.title = title
+        if x_axis_title is not None:
+            chart.x_axis.title = x_axis_title
+        if y_axis_title is not None:
+            chart.y_axis.title = y_axis_title
+        if max_cols is None:
+            max_cols = self.__num_cols
+        data = Reference(self.__ws,
+                         min_col=2,
+                         min_row=1,
+                         max_row=1 + self.__num_rows,
+                         max_col=1 + max_cols)
+        cats = Reference(self.__ws,
+                         min_col=1,
+                         min_row=2,
+                         max_row=1 + self.__num_rows)
+        chart.add_data(data,
+                       titles_from_data=True)
+        chart.set_categories(cats)
+        self.__ws.add_chart(chart, origin)
+        return
+
 
 class WorkBook:
     def __init__(self) -> None:
